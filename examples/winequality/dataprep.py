@@ -14,7 +14,7 @@ df = pd.read_csv(f'data/winequality-red.csv')
 # column as the dependent variable
 df = df[[dependent_variable] + [c for c in df.columns if c != dependent_variable]]
 
-csv = f's3://{bucket}/training_data/part_c0.csv.gz'
+csv = f's3://{bucket}/training_data/csv/part_c0.csv.gz'
 with smart_open.open(csv, 'w') as fp:
     df.to_csv(fp, index=False, header=False)
     print(f'Written {csv}')
