@@ -91,7 +91,7 @@ class StaticPage(pulumi.ComponentResource):
             __props__.__dict__["bucket"] = None
             __props__.__dict__["website_url"] = None
         super(StaticPage, __self__).__init__(
-            'xyz:index:StaticPage',
+            'sagemakerlambda:index:StaticPage',
             resource_name,
             __props__,
             opts,

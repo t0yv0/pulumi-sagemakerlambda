@@ -1,5 +1,5 @@
 {
-    "name": "@pulumi/xyz",
+    "name": "@pulumi/sagemakerlambda",
     "version": "${VERSION}",
     "scripts": {
         "build": "tsc"
