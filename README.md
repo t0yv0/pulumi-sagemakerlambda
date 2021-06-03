@@ -1,4 +1,4 @@
-# pulumisagemaker
+# pulumisagemakerlambda
 
 Defines `SagemakerPredictorLambda` that provisions an AWS SageMaker
 endpoint fronted by a custom Lambda function.
