@@ -1,4 +1,4 @@
-module github.com/pulumi/pulumi-xyz
+module github.com/t0yv0/pulumi-sagemakerlambda
 
 go 1.15
 
