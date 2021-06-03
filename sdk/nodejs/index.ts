@@ -6,17 +6,17 @@ import * as utilities from "./utilities";
 
 // Export members:
 export * from "./provider";
-export * from "./staticPage";
+export * from "./sagemakerPredictorLambda";
 
 // Import resources to register:
-import { StaticPage } from "./staticPage";
+import { SagemakerPredictorLambda } from "./sagemakerPredictorLambda";
 
 const _module = {
     version: utilities.getVersion(),
     construct: (name: string, type: string, urn: string): pulumi.Resource => {
         switch (type) {
-            case "sagemakerlambda:index:StaticPage":
-                return new StaticPage(name, <any>undefined, { urn })
+            case "sagemakerlambda:index:SagemakerPredictorLambda":
+                return new SagemakerPredictorLambda(name, <any>undefined, { urn })
             default:
                 throw new Error(`unknown resource type ${type}`);
         }

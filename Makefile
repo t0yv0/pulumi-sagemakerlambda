@@ -30,7 +30,7 @@ bin/venv:		${SRC}/requirements.txt
 	python3 -m venv $@
 	./bin/venv/bin/python -m pip install -r $<
 
-bin/${PACK}_provider:	${SRC}/	${SRC}/${PACK}_provider/VERSION
+bin/${PACK}_provider:	$(wildcard ${SRC}/**/*) ${SRC}/${PACK}_provider/VERSION
 	rm -rf $@
 	./bin/venv/bin/python -m pip install --no-deps provider/cmd/pulumi-resource-${PACK}/ -t bin/
 

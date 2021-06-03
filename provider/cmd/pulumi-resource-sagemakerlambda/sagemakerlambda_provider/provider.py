@@ -19,7 +19,9 @@ from pulumi.provider import ConstructResult
 import pulumi.provider as provider
 
 import sagemakerlambda_provider
-from sagemakerlambda_provider.staticpage import StaticPage, StaticPageArgs
+from sagemakerlambda_provider.sagemakerlambda import \
+    SagemakerPredictorLambda, \
+    SagemakerPredictorLambdaArgs
 
 
 class Provider(provider.Provider):
@@ -33,23 +35,30 @@ class Provider(provider.Provider):
                   inputs: Inputs,
                   options: Optional[ResourceOptions] = None) -> ConstructResult:
 
-        if resource_type == 'sagemakerlambda:index:StaticPage':
-            return _construct_static_page(name, inputs, options)
+        if resource_type == 'sagemakerlambda:index:SagemakerPredictorLambda':
+            return _construct_predictor_lambda(name, inputs, options)
 
         raise Exception(f'Unknown resource type {resource_type}')
 
 
-def _construct_static_page(name: str,
-                           inputs: Inputs,
-                           options: Optional[ResourceOptions] = None) -> ConstructResult:
+
+def _construct_predictor_lambda(name: str,
+                                inputs: Inputs,
+                                options: Optional[ResourceOptions] = None) -> ConstructResult:
+    """This boilerplate will eventually be automated."""
 
     # Create the component resource.
-    static_page = StaticPage(name, StaticPageArgs.from_inputs(inputs), dict(inputs), options)
+    l = SagemakerPredictorLambda(
+        name,
+        SagemakerPredictorLambdaArgs.from_inputs(inputs),
+        dict(inputs),
+        options)
 
     # Return the component resource's URN and outputs as its state.
     return provider.ConstructResult(
-        urn=static_page.urn,
+        urn=l.urn,
         state={
-            'bucket': static_page.bucket,
-            'websiteUrl': static_page.website_url
+            'trainingRoleArn': l.training_role_arn,
+            'endpointName': l.endpoint_name,
+            'lambdaFunctionName': l.lambda_function_name
         })
