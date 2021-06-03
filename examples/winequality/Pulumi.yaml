@@ -1,0 +1,6 @@
+name: pulumi-sagemakerlambda-winequality-example
+runtime:
+  name: python
+  options:
+    virtualenv: venv
+description: Demo of using pulumi-sagemakerlambda with a linear model.
