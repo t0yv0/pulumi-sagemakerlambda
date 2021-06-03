@@ -16,7 +16,7 @@ First we provision a bucket for the model and setup basic roles and
 permissions:
 
 ```
-pulumi up
+$ pulumi up
 ```
 
 
@@ -25,7 +25,7 @@ pulumi up
 Run the following script:
 
 ```
-python dataprep.py
+$ python dataprep.py
 ```
 
 Raw wine quality data is copied to S3 with minimal modification,
@@ -47,7 +47,7 @@ persists forever. These objects are not currently managed by Pulumi,
 so we use straight `boto3` code to do the training.
 
 ```
-python train.py
+$ python train.py
 ```
 
 Allow 4-5 minutes for this to complete.
@@ -64,7 +64,7 @@ $ aws s3 ls --recursive $(pulumi stack output bucket)
 We can now instruct Pulumi which model we want to deploy:
 
 ```
-pulumi config set trained_model_key trained_models/train-linear-learner-winequality-2021-06-03-2112/output/model.tar.gz
+$ pulumi config set trained_model_key trained_models/train-linear-learner-winequality-2021-06-03-2112/output/model.tar.gz
 ```
 
 
@@ -73,7 +73,49 @@ pulumi config set trained_model_key trained_models/train-linear-learner-winequal
 We can now provision our prediction (model serving) endpoint:
 
 ```
-pulumi up
+$ pulumi up
 ```
 
 Allow 10-15 minutes for this to complete.
+
+We can now query the model for predictions by invoking our lambda. Try
+the included script:
+
+```
+$ python invoke_lambda.py
+{
+ "lambda": "winequality-predictor-lambda-2f2a6c4",
+ "request": {
+  "alcohol": 9.8,
+  "chlorides": 0.098,
+  "citric acid": 0.0,
+  "density": 0.9968,
+  "fixed acidity": 7.8,
+  "free sulfur dioxide": 25.0,
+  "pH": 3.2,
+  "residual sugar": 2.6,
+  "sulphates": 0.68,
+  "total sulfur dioxide": 67.0,
+  "volatile acidity": 0.88
+ },
+ "response": {
+  "prediction": {
+   "quality": 4.9622802734375
+  }
+ }
+}
+```
+
+Note how having a Lambda layer let us simplify the raw SageMaker
+Endpoint interface by adding awareness of column names. In a realistic
+scenario this can also be used to do authentication, logging and other
+functions not specific to ML.
+
+While not yet covered in this example, building a REST endpoint
+powered by the lambda function is possible with
+[API-Gateway](https://aws.amazon.com/api-gateway/).
+
+
+## Cleanup
+
+Do not forget to `pulumi desroy` to avoid idle infra charges.
