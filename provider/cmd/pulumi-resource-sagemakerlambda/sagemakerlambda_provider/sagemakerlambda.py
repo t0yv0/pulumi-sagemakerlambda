@@ -13,6 +13,7 @@
 # limitations under the License.
 
 import json
+import pathlib
 
 from typing import Optional, List
 
@@ -364,7 +365,7 @@ class SagemakerPredictorLambda(pulumi.ComponentResource):
             runtime='python3.8',
             handler='handler.lambda_handler',
             code=pulumi.AssetArchive({
-                '.': pulumi.FileArchive('sagemaker_wrapper_lambda')
+                'handler.py': pulumi.FileAsset(pathlib.Path(__file__).absolute().parent.joinpath('./handler.py'))
             }),
             environment=lambda_.FunctionEnvironmentArgs(variables={
                 'SAGEMAKER_ENDPOINT_NAME': endpoint.name,
