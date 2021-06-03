@@ -1,4 +1,4 @@
-from pulumi_aws import s3
+from pulumi_aws import s3, kms
 import pulumi
 import pulumi_sagemakerlambda as spl
 
@@ -31,6 +31,8 @@ predictor_lambda = spl.SagemakerPredictorLambda(
         ]))
 
 
+kms_key = kms.Key('winequality-model-training-key', deletion_window_in_days=30)
+
 pulumi.export('bucket', bucket.id)
 
 pulumi.export('lambda_function_name', predictor_lambda.lambda_function_name)
@@ -38,3 +40,5 @@ pulumi.export('lambda_function_name', predictor_lambda.lambda_function_name)
 pulumi.export('endpoint_name', predictor_lambda.endpoint_name)
 
 pulumi.export('training_role_arn', predictor_lambda.training_role_arn)
+
+pulumi.export('kms_key_id', kms_key.id)
