@@ -43,7 +43,7 @@ class StaticPage(pulumi.ComponentResource):
                  props: Optional[dict] = None,
                  opts: Optional[ResourceOptions] = None) -> None:
 
-        super().__init__('xyz:index:StaticPage', name, props, opts)
+        super().__init__('sagemakerlambda:index:StaticPage', name, props, opts)
 
         # Create a bucket and expose a website index document.
         bucket = s3.Bucket(
