@@ -31,11 +31,10 @@ predictor_lambda = spl.SagemakerPredictorLambda(
         ]))
 
 
-pulumi.export('lambda_function_name',
-              predictor_lambda.lambda_function_name)
+pulumi.export('bucket', bucket.id)
 
-pulumi.export('endpoint_name',
-              predictor_lambda.endpoint_name)
+pulumi.export('lambda_function_name', predictor_lambda.lambda_function_name)
 
-pulumi.export('training_role_arn',
-              predictor_lambda.training_role_arn)
+pulumi.export('endpoint_name', predictor_lambda.endpoint_name)
+
+pulumi.export('training_role_arn', predictor_lambda.training_role_arn)
